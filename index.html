@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrideProof — Verifiable Sports Data for Brands</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafafa; --card: #ffffff; --text: #171717; --muted: #737373;
+  --border: #e5e5e5; --accent: #171717; --green: #059669; --red: #dc2626;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.6em; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+h2 { font-size: 1.6em; font-weight: 700; letter-spacing: -0.02em; margin: 40px 0 16px; }
+h3 { font-size: 1.1em; font-weight: 700; margin-bottom: 8px; }
+p { color: var(--muted); }
+.logo { font-weight: 800; font-size: 1.2em; letter-spacing: -0.02em; }
+.logo::before { content: '◼ '; }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.78em; font-weight: 600; background: #ecfdf5; color: var(--green); margin-bottom: 16px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.step { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+.step-num { min-width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: #f5f5f5; padding: 2px 6px; border-radius: 6px; }
+pre { background: #f9fafb; border: 1px solid var(--border); border-radius: 10px; padding: 16px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; line-height: 1.5; }
+.cta { background: var(--accent); color: white; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; display: inline-block; }
+.cta-sec { background: white; color: var(--text); border: 1px solid var(--border); padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; display: inline-block; margin-left: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.05em; }
+.hero { padding: 60px 0 40px; }
+.hero p { font-size: 1.15em; margin-top: 16px; max-width: 640px; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+.stat { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; }
+.stat b { display: block; font-size: 1.9em; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+.stat span { font-size: 0.8em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 24px 0; color: var(--muted); font-size: 0.85em; }
+@media print { .cta, .cta-sec { display: none; } body { background: white; } .card { box-shadow: none; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">StrideProof</div>
+  <div class="hero">
+    <div class="badge">DePIN Protocol • PSS-1 Standard</div>
+    <h1>Доказательство реальной пробежки.<br>Криптографически.</h1>
+    <p>StrideProof верифицирует спортивную активность на уровне данных: GPS-трек, пульс, подпись Ed25519 и proof-of-humanity. Бренды платят только за реальные пробежки реальных людей.</p>
+    <div style="margin-top: 28px;">
+      <a class="cta" href="mailto:partners@strideproof.network?subject=StrideProof%20Partnership">Запросить доступ</a>
+      <a class="cta-sec" href="one-pager.html">One-pager (PDF)</a>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><b>0%</b><span>фейков в кампаниях</span></div>
+    <div class="stat"><b>100</b><span>макс. quality score</span></div>
+    <div class="stat"><b>Ed25519</b><span>подпись каждого сигнала</span></div>
+  </div>
+
+  <h2>Проблема</h2>
+  <div class="card">
+    <p>Бренды тратят миллионы на кампании «пробеги N км — получи награду». Но до 30% активности — фейки: GPS-спуфинг, эмуляторы, боты. Деньги уходят не спортсменам, а скриптам. Существующие платформы не дают бренду способа проверить данные.</p>
+  </div>
+
+  <h2>Решение: PSS-1 сигнал</h2>
+  <div class="card">
+    <p>Каждая тренировка превращается в верифицируемый сигнал:</p>
+    <pre>{
+  "signal_id": "20261006_a1b2c3d4",
+  "activity": { "distance_m": 10500, "duration_sec": 3200 },
+  "biometrics": { "avg_heart_rate_bpm": 162, "vo2max_estimated": 48.5 },
+  "quality": { "score": 92, "confidence": "high" },
+  "athlete": { "human_verification": { "provider": "worldid", "is_verified": true } },
+  "proof": { "signature_ed25519": "hex:...", "gps_track_hash": "sha256:..." }
+}</pre>
+    <p style="margin-top: 12px;">Любая сторона может проверить подпись и целостность данных без доверия к узлу.</p>
+  </div>
+
+  <h2>Как это работает</h2>
+  <div class="step"><div class="step-num">1</div><div><h3>Атлет бежит</h3><p>Часы/датчики пишут GPS-трек и пульс. Данные проходят sanity-фильтры и получают Quality Score (0–100).</p></div></div>
+  <div class="step"><div class="step-num">2</div><div><h3>Узел подписывает</h3><p>DePIN-узел формирует PSS-1 сигнал и подписывает его Ed25519. Привязка к человеку — через proof-of-humanity.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div><h3>Бренд верифицирует</h3><p>Webhook получает сигнал. Подпись проверяется на стороне бренда. Репутация узла — on-chain.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div><h3>Награда выдаётся</h3><p>Только сигналы, прошедшие правила кампании (дистанция, quality, human proof), получают награду.</p></div></div>
+
+  <h2>Экономика кампании (иллюстрация)</h2>
+  <div class="card">
+    <table>
+      <tr><th>Параметр</th><th>Без верификации</th><th>С StrideProof</th></tr>
+      <tr><td>Пробежек в кампании</td><td>10 000</td><td>10 000</td></tr>
+      <tr><td>Доля фейков</td><td>~30%</td><td>~0% (отклоняются на входе)</td></tr>
+      <tr><td>Бюджет ($5/пробежка)</td><td>$50 000</td><td>$50 000</td></tr>
+      <tr><td>Потери на фейках</td><td style="color:var(--red); font-weight:600;">−$15 000</td><td style="color:var(--green); font-weight:600;">$0</td></tr>
+      <tr><td>Комиссия протокола (5%)</td><td>—</td><td>$2 500</td></tr>
+      <tr><td><b>Чистый результат бренда</b></td><td><b>$35 000 ценности</b></td><td><b>$47 500 ценности</b></td></tr>
+    </table>
+  </div>
+
+  <h2>Для исследователей</h2>
+  <div class="card">
+    <p>Анонимизированные датасеты: GPS хранится как хеш, биометрика агрегирована, координаты зашумлены (дифференциальная приватность, σ=50 м). Данные о здоровье населения без компромисса с приватностью.</p>
+  </div>
+
+  <footer>
+    StrideProof Protocol • PSS-1 Signal Standard v1.0 • partners@strideproof.network<br>
+    Демо-данные помечаются как MOCK. Production-сигналы проходят полную верификацию.
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>StrideProof — One-Pager</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+         color: #111; background: #fff; padding: 40px 50px; line-height: 1.45; }
+  .header { border-bottom: 3px solid #111; padding-bottom: 14px; margin-bottom: 22px; }
+  h1 { font-size: 30px; letter-spacing: -0.5px; }
+  .tag { font-size: 13px; color: #555; margin-top: 4px; }
+  h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+       margin: 18px 0 8px; color: #111; }
+  p, li { font-size: 12.5px; }
+  ul { padding-left: 18px; }
+  .cols { display: flex; gap: 26px; }
+  .col { flex: 1; }
+  .box { border: 1px solid #ddd; border-radius: 8px; padding: 12px 14px; margin-top: 6px; }
+  .stat { display: flex; gap: 14px; margin-top: 10px; }
+  .stat div { flex: 1; text-align: center; border: 1px solid #eee; border-radius: 8px; padding: 10px; }
+  .stat b { display: block; font-size: 20px; }
+  .stat span { font-size: 10.5px; color: #666; }
+  .cta { margin-top: 20px; background: #111; color: #fff; border-radius: 10px;
+         padding: 14px 18px; font-size: 13px; }
+  .cta b { font-size: 14px; }
+  .foot { margin-top: 12px; font-size: 10px; color: #888; display: flex; justify-content: space-between; }
+  @media print { body { padding: 20mm; } .cta { -webkit-print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>StrideProof</h1>
+  <div class="tag">Proof-of-Workout Protocol — cryptographically verified sports activity for brand reward campaigns</div>
+</div>
+
+<div class="cols">
+  <div class="col">
+    <h2>The Problem</h2>
+    <p>Up to <b>30% of activity</b> in sports reward campaigns is fraudulent: GPS spoofing, emulators, borrowed devices. Brands pay for runs that never happened and cannot audit it afterwards.</p>
+
+    <h2>The Solution</h2>
+    <ul>
+      <li><b>Ed25519-signed signals</b> — every workout is cryptographically signed at the athlete's node. Change one byte and verification fails.</li>
+      <li><b>Proof-of-humanity</b> — each node is bound to a unique human (nullifier hash). Sybil farms are excluded.</li>
+      <li><b>Quality scoring 0–100</b> — GPS coverage, anomaly detection, cadence and HR validity checked before signing.</li>
+      <li><b>Self-verification</b> — the brand verifies signatures on its own side. Trust no one, verify everything.</li>
+    </ul>
+
+    <h2>How It Works</h2>
+    <ul>
+      <li><b>1.</b> Athlete's watch exports workout data (Polar / Garmin / Strava).</li>
+      <li><b>2.</b> StrideProof node scores data quality and builds a PSS-1 signal.</li>
+      <li><b>3.</b> Node signs the signal with its Ed25519 key.</li>
+      <li><b>4.</b> Brand receives the signal via webhook, verifies the signature, issues rewards by campaign rules.</li>
+    </ul>
+  </div>
+
+  <div class="col">
+    <h2>Live Demo Metrics</h2>
+    <div class="stat">
+      <div><b>100/100</b><span>Quality Score on real workouts</span></div>
+      <div><b>&lt;1s</b><span>Webhook delivery to brand portal</span></div>
+      <div><b>0</b><span>Fraudulent signals passed verification</span></div>
+    </div>
+    <div class="box">
+      <b>What the brand sees:</b> date, athlete node ID, distance, quality score, human-verification badge, signature status, reward status — all auditable in real time.
+    </div>
+
+    <h2>Privacy by Design</h2>
+    <p>GPS tracks are anonymized with differential privacy (Laplace noise, ε-budget). Brands get patterns, not locations. GDPR-friendly.</p>
+
+    <h2>Commercials</h2>
+    <ul>
+      <li><b>Pilot:</b> 1 campaign, $10K budget, no commitment</li>
+      <li><b>Standard:</b> 5% of campaign budget</li>
+      <li><b>Enterprise:</b> $50–100K / year, API + SLA</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cta">
+  <b>Request a 15-minute live demo</b> — we show a real workout going from watch to signed signal to your reward decision.<br>
+  partners@strideproof.network &nbsp;•&nbsp; demo video on request &nbsp;•&nbsp; pilot onboarding in 5 days
+</div>
+
+<div class="foot">
+  <span>StrideProof • PSS-1 Signal Standard • Ed25519</span>
+  <span>October 2026</span>
+</div>
+
+</body>
+</html>
