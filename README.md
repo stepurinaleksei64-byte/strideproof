@@ -68,7 +68,10 @@ StrideProof is designed to act as a middleware or a standard BLE GATT peripheral
 
 ---
 > 🛡️ [Read our Technical Brief: Eliminating Spoofing on Strava Leaderboards](STRAVA_ANTI_SPOOF.md)
-> ---
+>
+> 🏃 [Live Verdict Example: real 12.74 km run, 79 anomalies, correctly verified](REAL_VERDICT_EXAMPLE.md)
+
+---
+
 ## ⚖️ Legal & Licensing
 © 2026 StrideProof. The PSS-1 specification and related documentation are provided for evaluation purposes only. All rights reserved. Commercial licensing and partnership inquiries: strideproof.partners@gmail.com
-
