@@ -1,4 +1,4 @@
-# StrideProof Protocol (PSS-1)
+<img width="1476" height="544" alt="image" src="https://github.com/user-attachments/assets/a1eeaa2e-40e4-4314-8a48-92ddf016c975" /># StrideProof Protocol (PSS-1)
 
 **Cryptographic Proof-of-Activity & Anti-Spoofing Middleware for Sports Ecosystems**
 
@@ -70,7 +70,8 @@ StrideProof is designed to act as a middleware or a standard BLE GATT peripheral
 > 🛡️ [Read our Technical Brief: Eliminating Spoofing on Strava Leaderboards](STRAVA_ANTI_SPOOF.md)
 >
 > 🏃 [Live Verdict Example: real 12.74 km run, 79 anomalies, correctly verified](REAL_VERDICT_EXAMPLE.md)
-
+>
+> 🧪 [Try to fool PSS-1: live in-browser anti-spoofing simulator](https://stepurinaleksei64-byte.github.io/strideproof/#live-demo)
 ---
 
 ## ⚖️ Legal & Licensing
