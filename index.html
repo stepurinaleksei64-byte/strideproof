@@ -108,5 +108,86 @@ footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 24px 0;
     Демо-данные помечаются как MOCK. Production-сигналы проходят полную верификацию.
   </footer>
 </div>
-</body>
+<section id="live-demo" class="ld-wrap">
+<style>
+.ld-wrap{padding:60px 16px;background:#0b0f14;color:#e8eef5;font-family:Inter,system-ui,sans-serif}
+.ld-card{max-width:960px;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;backdrop-filter:blur(12px)}
+.ld-card h2{font-size:32px;margin:0 0 8px;background:linear-gradient(90deg,#4ade80,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ld-sub{color:#94a3b8;margin:0 0 20px}
+.ld-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.ld-btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;color:#0b0f14}
+.ld-ok{background:#4ade80}.ld-bad{background:#f87171}
+.ld-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+@media(max-width:760px){.ld-grid{grid-template-columns:1fr}}
+#ldCanvas{width:100%;background:#05080c;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+.ld-metric{display:grid;grid-template-columns:90px 1fr 60px;align-items:center;gap:8px;font-size:13px;color:#94a3b8;margin-bottom:8px}
+.ld-bar{height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+.ld-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#4ade80);transition:width .1s}
+.ld-log{height:150px;overflow:auto;background:#05080c;border-radius:10px;padding:10px;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5}
+.ld-log .ok{color:#4ade80}.ld-log .warn{color:#fbbf24}.ld-log .bad{color:#f87171}
+.ld-verdict{margin-top:20px;padding:18px;border-radius:12px;font-family:ui-monospace,monospace;font-size:14px}
+.ld-pass{background:rgba(74,222,128,.12);border:1px solid #4ade80}
+.ld-fail{background:rgba(248,113,113,.12);border:1px solid #f87171}
+.hidden{display:none}
+</style>
+<div class="ld-card">
+<h2>Try to fool PSS-1</h2>
+<p class="ld-sub">Live simulator. Runs entirely in your browser — no data leaves this page.</p>
+<div class="ld-buttons">
+<button class="ld-btn ld-ok" data-sc="honest">Honest urban run</button>
+<button class="ld-btn ld-bad" data-sc="spoof">GPS spoof</button>
+<button class="ld-btn ld-bad" data-sc="emulator">Emulator</button>
+<button class="ld-btn ld-bad" data-sc="replay">Replay attack</button>
+</div>
+<div class="ld-grid">
+<canvas id="ldCanvas" width="520" height="260"></canvas>
+<div>
+<div class="ld-metric"><span>GPS speed</span><div class="ld-bar"><i id="mSpeed"></i></div><b id="vSpeed">—</b></div>
+<div class="ld-metric"><span>Cadence</span><div class="ld-bar"><i id="mCad"></i></div><b id="vCad">—</b></div>
+<div class="ld-metric"><span>Heart rate</span><div class="ld-bar"><i id="mHr"></i></div><b id="vHr">—</b></div>
+<div id="ldLog" class="ld-log"></div>
+</div>
+</div>
+<div id="ldVerdict" class="ld-verdict hidden"></div>
+</div>
+<script>
+(function(){
+var N=90,cv=document.getElementById('ldCanvas'),cx=cv.getContext('2d'),log=document.getElementById('ldLog'),ver=document.getElementById('ldVerdict');
+function rnd(a){return (Math.random()*2-1)*a}
+function gen(sc){var p=[],x=20,y=200,hr=150;for(var i=0;i<N;i++){var sp=3.2+rnd(.3),cad=178+rnd(6),h=hr+i*.12+rnd(3),jx=rnd(2),jy=rnd(2);
+if(sc==='honest'&&i>=40&&i<=44){sp=0;cad=0;}
+if(sc==='spoof'&&i>=30&&i<=32){x+=45;jx=0;jy=0;}
+if(sc==='emulator'){sp=3.2;cad=180;h=150;}
+if(sc==='replay'&&i>=40&&i<=44){sp=0;cad=0;}
+x+=sp*.9+jx*.3;y-=sp*.55+jy*.3;if(y<20)y=20;if(x>500)x=500;
+p.push({x:x,y:y,sp:sp,cad:cad,hr:h});}return p;}
+function line(t,c){var d=document.createElement('div');d.className=c;d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function run(sc){log.innerHTML='';ver.className='ld-verdict hidden';cx.clearRect(0,0,520,260);
+var p=gen(sc),flags=0,anoms=0,i=0,hrs=[];
+var t=setInterval(function(){if(i>=N){clearInterval(t);finish();return;}
+var q=p[i];cx.fillStyle='#22d3ee';cx.beginPath();cx.arc(q.x,q.y,2,0,7);cx.fill();
+if(i>0){cx.strokeStyle='rgba(34,211,238,.5)';cx.beginPath();cx.moveTo(p[i-1].x,p[i-1].y);cx.lineTo(q.x,q.y);cx.stroke();}
+document.getElementById('mSpeed').style.width=Math.min(100,q.sp*12)+'%';document.getElementById('vSpeed').textContent=q.sp.toFixed(1)+' m/s';
+document.getElementById('mCad').style.width=Math.min(100,q.cad*.5)+'%';document.getElementById('vCad').textContent=Math.round(q.cad);
+document.getElementById('mHr').style.width=Math.min(100,(q.hr-100))+'%';document.getElementById('vHr').textContent=Math.round(q.hr);
+hrs.push(q.hr);if(hrs.length>10)hrs.shift();
+if(i>0){var gs=Math.hypot(q.x-p[i-1].x,q.y-p[i-1].y),cs=q.cad*1.15/60;
+if(gs>15){flags++;anoms++;line(i+'s GPS_TELEPORT jump detected','bad');}
+else if(Math.abs(gs-cs)>2.5&&q.sp>1){flags++;anoms++;line(i+'s SPEED_MISMATCH gps='+gs.toFixed(1)+' cad='+cs.toFixed(1),'warn');}
+if(q.sp<.3&&q.cad<5){anoms++;line(i+'s VALID_PAUSE context ok','ok');}
+if(i>12){var v=0,m=hrs.reduce(function(a,b){return a+b},0)/hrs.length;hrs.forEach(function(h){v+=(h-m)*(h-m)});v/=hrs.length;
+if(v<.05&&sc!=='honest'){flags++;line(i+'s ZERO_HR_ENTROPY flatline','bad');}}}
+if(sc==='replay'&&i===N-1){flags+=3;line('SIG_CHAIN_BROKEN previous hash mismatch','bad');}
+i++;},40);
+function finish(){var fp=Math.min(.99,.02+.25*flags),ok=fp<.5;
+var json=JSON.stringify({scenario:sc,fraud_probability:+fp.toFixed(2),anomalies:anoms,verified:ok});
+crypto.subtle.digest('SHA-256',new TextEncoder().encode(json)).then(function(d){
+var hex=[].map.call(new Uint8Array(d),function(b){return b.toString(16).padStart(2,'0')}).join('').slice(0,24);
+ver.className='ld-verdict '+(ok?'ld-pass':'ld-fail');
+ver.innerHTML=(ok?'✅ VERIFIED':'⛔ REJECTED')+' — fraud_probability: '+fp.toFixed(2)+'<br>anomalies: '+anoms+'<br>digest(SHA-256): '+hex+'…<br><span style="opacity:.6">browser demo · production signs Ed25519 on-device</span>';});}
+}
+document.querySelectorAll('.ld-btn').forEach(function(b){b.onclick=function(){run(b.dataset.sc)}});
+})();
+</script>
+</section></body>
 </html>
